@@ -26,7 +26,7 @@ Rather than learning Go only through isolated examples, this project applies the
 - Multiple-choice questions loaded from CSV files
 - Validation for topic and answer selections
 - Colored terminal feedback
-- A final score after three questions
+- A final score after all questions from the selected category
 - A simple data format that makes new topics and questions easy to add
 
 ## Run locally
@@ -43,7 +43,7 @@ cd go-quiz-cli/cmd
 go run .
 ```
 
-You will be prompted to enter your name, select a topic, and answer three questions:
+You will be prompted to enter your name, select a topic, and answer every question available in that category:
 
 ```text
 Seja Bem vindo!
