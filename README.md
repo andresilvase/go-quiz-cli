@@ -22,7 +22,7 @@ Rather than learning Go only through isolated examples, this project applies the
 
 ## Features
 
-- Four quiz categories: **Bíblia**, **Ciência**, **História**, and **Matemática**
+- Four quiz categories: **Bible**, **Science**, **History**, and **Mathematics**
 - Multiple-choice questions loaded from CSV files
 - Validation for topic and answer selections
 - Colored terminal feedback
