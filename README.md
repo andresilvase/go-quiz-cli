@@ -1,5 +1,7 @@
 # Go Quiz CLI 🧠
 
+[Português](README.md) | **English**
+
 ![Go](https://img.shields.io/badge/Go-1.23.2-00ADD8?logo=go&logoColor=white)
 ![Interface](https://img.shields.io/badge/interface-CLI-4EAA25?logo=gnubash&logoColor=white)
 ![Status](https://img.shields.io/badge/status-learning%20project-f59e0b)
