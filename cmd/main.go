@@ -85,7 +85,7 @@ func (g *GameState) FileReader(topic int) error {
 func (g *GameState) Init() {
 	reader := bufio.NewReader(os.Stdin)
 
-	for index, question := range g.Questions[:3] {
+	for index, question := range g.Questions {
 		fmt.Printf("\n\033[33m%d. %s\n\033[0m", index+1, question.Text)
 		for i, v := range question.Options {
 			fmt.Printf("[%d] %s\n", i+1, v)
@@ -167,5 +167,5 @@ func main() {
 
 	game.Init()
 	fmt.Println("Fim de jogo!")
-	fmt.Printf("\nVocê acertou %d de %d questões", game.Score, 3)
+	fmt.Printf("\nVocê acertou %d de %d questões", game.Score, len(game.Questions))
 }
