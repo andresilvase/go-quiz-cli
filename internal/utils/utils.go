@@ -1,9 +1,10 @@
 package utils
 
 import (
-	"errors"
 	"strconv"
 	"strings"
+
+	myErrors "github.com/andresilvase/go-quiz-cli/internal/errors"
 )
 
 func ToInt(value string) (int, error) {
@@ -14,7 +15,7 @@ func ToInt(value string) (int, error) {
 	intValue, err := strconv.Atoi(value)
 
 	if err != nil {
-		return 0, errors.New("você precisa digitar um valor numérico.\n")
+		return 0, myErrors.ExpectInteger{Message: "você precisa digitar um valor numérico. "}
 	}
 
 	return intValue, nil

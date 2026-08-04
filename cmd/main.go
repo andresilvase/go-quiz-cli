@@ -53,25 +53,31 @@ func readTopicChoice() (int, error) {
 }
 
 func main() {
-	game := &domain.GameState{}
-
 	fmt.Println("Seja Bem vindo!")
 
-	game.ReadPlayerName()
+	game := &domain.GameState{}
+
+	err := game.ReadPlayerName()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Printf("\nOlá \033[32m%s\033[0m! Vamos jogar?\n\n", game.PlayerName)
 
 	displayTopicChoice()
 
 	topic, err := readTopicChoice()
-
 	if err != nil {
-		log.Fatal("\nError: %w", err)
+		log.Fatal(err)
 	}
 
 	if err := game.FileReader(topic); err != nil {
-		log.Fatal("\nError: %w", err)
+		log.Fatal(err)
 	}
 
-	game.Init()
+	if err := game.Init(); err != nil {
+		log.Fatal(err)
+	}
+
 	game.End()
 }

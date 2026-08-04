@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"encoding/csv"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/andresilvase/go-quiz-cli/internal/utils"
@@ -29,16 +28,18 @@ type Question struct {
 	Answer  int
 }
 
-func (g *GameState) ReadPlayerName() {
+func (g *GameState) ReadPlayerName() error {
 	fmt.Print("Digite o seu nome para continuar: ")
 	reader := bufio.NewReader(os.Stdin)
 	name, err := reader.ReadString('\n')
 
 	if err != nil {
-		log.Fatalf("\033[31merro ao ler o nome do jogador! %v\033[0m", err)
+		return fmt.Errorf("erro ao ler o nome do jogador! %w", err)
 	}
 
 	g.PlayerName = name[:len(name)-1]
+
+	return nil
 }
 
 func (g *GameState) FileReader(topic int) error {
@@ -68,7 +69,12 @@ func (g *GameState) FileReader(topic int) error {
 
 	for index, record := range csvRows {
 		if index > 0 {
-			convertedNumber, _ := utils.ToInt(record[len(record)-1])
+			convertedNumber, err := utils.ToInt(record[len(record)-1])
+
+			if err != nil {
+				return fmt.Errorf("ocorreu um erro ao preparar o csv para o quiz %w", err)
+			}
+
 			question := &Question{
 				Text:    record[0],
 				Options: record[1 : len(record)-1],
@@ -82,7 +88,7 @@ func (g *GameState) FileReader(topic int) error {
 	return nil
 }
 
-func (g *GameState) Init() {
+func (g *GameState) Init() error {
 	reader := bufio.NewReader(os.Stdin)
 
 	for index, question := range g.Questions {
@@ -94,8 +100,17 @@ func (g *GameState) Init() {
 		fmt.Printf("Digite a opção correta: ")
 		readyToGo := false
 		for !readyToGo {
-			value, _ := reader.ReadString('\n')
-			userAnswer, _ := utils.ToInt(value)
+			value, err := reader.ReadString('\n')
+
+			if err != nil {
+				return fmt.Errorf("\nInit Error: %w", err)
+			}
+
+			userAnswer, err := utils.ToInt(value)
+
+			if err != nil {
+				fmt.Printf("\nError: %v", err)
+			}
 
 			readyToGo = userAnswer > 0 && userAnswer <= len(question.Options)
 
@@ -108,9 +123,11 @@ func (g *GameState) Init() {
 			}
 		}
 	}
+
+	return nil
 }
 
 func (g *GameState) End() {
-	fmt.Println("Fim de jogo!")
-	fmt.Printf("\nVocê acertou %d de %d questões", g.Score, len(KnowledgeBase))
+	fmt.Println("\033[32m\nFim de jogo!\033[0m")
+	fmt.Printf("Você acertou %d de %d questões.\n", g.Score, len(g.Questions))
 }
