@@ -8,9 +8,7 @@ import (
 )
 
 func ToInt(value string) (int, error) {
-	if strings.Contains(value, "\n") {
-		value = value[:len(value)-1]
-	}
+	value = strings.TrimSpace(value)
 
 	intValue, err := strconv.Atoi(value)
 
