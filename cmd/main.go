@@ -1,14 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	domain "github.com/andresilvase/go-quiz-cli/internal/domain"
-	utils "github.com/andresilvase/go-quiz-cli/internal/utils"
+	"github.com/andresilvase/go-quiz-cli/internal/utils"
 )
 
 func displayTopicChoice() {
@@ -28,14 +26,14 @@ func readTopicChoice() (int, error) {
 	topic := 0
 
 	for !topicSelected {
-		reader := bufio.NewReader(os.Stdin)
-		userChoice, err := reader.ReadString('\n')
+		var input string
+		_, err := fmt.Scanln(&input)
 
 		if err != nil {
 			return 0, fmt.Errorf("\nreadTopicChoice Error: %w", err)
 		}
 
-		userChoiceInt, err := utils.ToInt(userChoice)
+		userChoiceInt, err := utils.ToInt(input)
 
 		if err != nil {
 			fmt.Printf("\nError: %v", err)
@@ -45,7 +43,7 @@ func readTopicChoice() (int, error) {
 		topicSelected = topic > 0 && topic <= len(domain.KnowledgeBase)
 
 		if !topicSelected {
-			fmt.Printf("Escolha uma opção válida entre 1 e %d: ", len(domain.KnowledgeBase))
+			fmt.Printf("\nEscolha uma opção válida entre 1 e %d: ", len(domain.KnowledgeBase))
 		}
 	}
 

@@ -89,8 +89,6 @@ func (g *GameState) FileReader(topic int) error {
 }
 
 func (g *GameState) Init() error {
-	reader := bufio.NewReader(os.Stdin)
-
 	for index, question := range g.Questions {
 		fmt.Printf("\n\033[33m%d. %s\n\033[0m", index+1, question.Text)
 		for i, v := range question.Options {
@@ -100,13 +98,14 @@ func (g *GameState) Init() error {
 		fmt.Printf("Digite a opção correta: ")
 		readyToGo := false
 		for !readyToGo {
-			value, err := reader.ReadString('\n')
+			var input string
+			_, err := fmt.Scanln(&input)
 
 			if err != nil {
 				return fmt.Errorf("\nInit Error: %w", err)
 			}
 
-			userAnswer, err := utils.ToInt(value)
+			userAnswer, err := utils.ToInt(input)
 
 			if err != nil {
 				fmt.Printf("\nError: %v", err)
